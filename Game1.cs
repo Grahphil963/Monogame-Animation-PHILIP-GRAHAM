@@ -9,6 +9,14 @@ namespace Monogame_Animation_PHILIP_GRAHAM
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        Texture2D tribbleGreyTexture;
+        Rectangle tribbleGreyRect;
+        Vector2 tribbleGreySpeed;
+
+
+
+
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -19,6 +27,7 @@ namespace Monogame_Animation_PHILIP_GRAHAM
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            tribbleGreySpeed = new Vector2(2, 2);
 
             base.Initialize();
         }
@@ -28,6 +37,9 @@ namespace Monogame_Animation_PHILIP_GRAHAM
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            tribbleGreyTexture = Content.Load<Texture2D>("tribbleGrey");
+            tribbleGreyRect = new Rectangle(300, 10, 100, 100);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -37,6 +49,15 @@ namespace Monogame_Animation_PHILIP_GRAHAM
 
             // TODO: Add your update logic here
 
+
+            tribbleGreyRect.X += (int)tribbleGreySpeed.X;
+            tribbleGreyRect.Y += (int)tribbleGreySpeed.Y;
+
+            if (tribbleGreyRect.Right > _graphics.PreferredBackBufferWidth|| tribbleGreyRect.X < 0)
+                tribbleGreySpeed.X *= -1;
+            if (tribbleGreyRect.Bottom > _graphics.PreferredBackBufferHeight || tribbleGreyRect.Y < 0)
+                tribbleGreySpeed.Y *= -1;
+            
             base.Update(gameTime);
         }
 
@@ -45,6 +66,14 @@ namespace Monogame_Animation_PHILIP_GRAHAM
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(tribbleGreyTexture, tribbleGreyRect, Color.White);
+
+
+
+            _spriteBatch.End();
+            
 
             base.Draw(gameTime);
         }
